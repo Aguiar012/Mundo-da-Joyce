@@ -1,0 +1,18 @@
+Baixa o XAMPP em https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.12/xampp-windows-x64-8.2.12-0-VS16-installer.exe/download
+
+Vai até a pasta file:///C:/xampp ou clica em 'Explorer' no XAMPP
+Depois encontra a pasta htdocs dentro de file:///C:/xampp
+
+Copia e cola a pasta "Mundo da Joyce" para dentro de htdocs
+Depois que colocou a pasta "Mundo da Joyce" dentro do file:///C:/xampp/htdocs, você deve ter file:///C:/xampp/htdocs/Mundo-da-Joyce
+
+Para iniciar o site NÃO pode ser pelo VsCode ou direto do html, precisa ser pelo link http://localhost/Mundo-da-Joyce/inscription.html no seu navegador
+
+
+PARA ACESSAR O BANCO DE DADOS: http://localhost/phpmyadmin
+
+
+
+
+
+QUANDO FOI COLOCAR NA NUVEM NAO PRECISA DE NADA DISSO, esse é um tutorial só pra colocar no PC, FICA MUITO MAIS SIMPLES NELA
