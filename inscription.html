@@ -48,22 +48,22 @@
                 <br>
                 <div class="container form" id="inscription">
                     <h3 style="text-align: center; margin-top: -5px;">SE INSCREVA JÁ!</h3>
-                    <form action="@inscription.php" method="post">
+                    <form action="inscription.php" method="post">
                         <label for="inscriptionName">Nome Completo</label>
                         <input type="text" placeholder="Jane Doe" 
-                            id="inscriptionName" name="inscriptionName" size="36" required>
+                            id="inscriptionName" name="inscriptionName" size="36" required> <!-- vai para php como $_POST['inscriptionName'] -->
                         <br> <br>
                         <label for="inscriptionUser">Usuário Completo</label>
                         <input type="text" placeholder="Janedoe123"
-                            id="inscriptionUser" name="inscriptionUser" size="36" required>
+                            id="inscriptionUser" name="inscriptionUser" size="36" required <!-- vai para php como $_POST['inscriptionUser'] -->
                         <br> <br>
                         <label for="inscriptionEmail">Email</label>
                         <input type="email" placeholder="example@gmail.com" 
-                            id="inscriptionEmail" name="inscriptionEmail" size="36" required>
+                            id="inscriptionEmail" name="inscriptionEmail" size="36" required><!-- vai para php como $_POST['inscriptionEmail'] -->
                         <br> <br>
                         <label for="inscriptionTelephone">Telefone</label>
                         <input type="tel" pattern="[0-9]{2}-[0-9]{4-5}-[0-9]{4}" placeholder="XX-XXXX(X)-XXXX" 
-                            id="inscriptionTelephone" name="inscriptionTelephone" size="36" required>
+                            id="inscriptionTelephone" name="inscriptionTelephone" size="36" required> <!-- vai para php como $_POST['inscriptionTelephone'] -->
                         <br> <br>
                         <input type="submit" value="Enviar" style="padding: 8px 41.75%; background-color: #FFFFFF; border: 0px; color: #000000;">
                     </form>
