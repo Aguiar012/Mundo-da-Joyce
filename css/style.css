@@ -1,0 +1,305 @@
+/*=============================================
+=            FONTES PERSONALIZADAS            =
+=============================================*/
+@font-face {
+    font-family: 'ROBLOX';
+    src: local("ROBLOX"), url("/fonts/roblox_2017_font.woff") format("woff");
+}
+@font-face {
+    font-family: 'Gotham';
+    src: local("Gotham"), url("/fonts/GothamBlack.woff") format("woff");
+}
+
+/*=============================================
+=                 ANIMACOES                   =
+=============================================*/
+@keyframes rainbow {
+    100%, 0% {
+        color: rgb(255, 0, 0);
+    }
+    8% {
+        color: rgb(255, 127, 0);
+    }
+    16% {
+        color: rgb(255, 255, 0);
+    }
+    25% {
+        color: rgb(127, 255, 0);
+    }
+    33% {
+        color: rgb(0, 255, 0);
+    }
+    41% {
+        color: rgb(0, 255, 127);
+    }
+    50% {
+        color: rgb(0, 255, 255);
+    }
+    58% {
+        color: rgb(0, 127, 255);
+    }
+    66% {
+        color: rgb(0, 0, 255);
+    }
+    75% {
+        color: rgb(127, 0, 255);
+    }
+    83% {
+        color: rgb(255, 0, 255);
+    }
+    91% {
+        color: rgb(255, 0, 127);
+    }
+}
+.fontRainbow {
+    display: inline;
+    font-size: calc(4vw + 20px);
+    animation: rainbow 4s linear infinite; /* Shorthand for animation properties */
+}
+
+@keyframes bounce {
+    45%, 55% {
+        font-size: 2rem;
+        color: gold;
+    }
+}
+.bounce {
+    animation: bounce 0.8s ease-in-out;
+}
+
+/*=============================================
+=                   TAGS HTML                 =
+=============================================*/
+a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+aside {
+    position: fixed;
+    z-index: 999;
+    top: 0px;
+    margin-left: -30px;
+    margin-top: -5px;
+    height: 50px;
+    background-color: #222222;
+}
+
+body {
+    background-color: #222222;
+    font-family: 'Gotham', monospace;
+    color: #FFFFFF;
+}
+
+button,
+input {
+    background-color: #141414;
+    padding: 9px 10px;
+    margin: 2px 0px;
+    border: 2px solid #000;
+    border-radius: 7px;
+    color: #fff;
+    font-size: 1.8vw;
+    transition: background-color 0.3s;
+}
+
+button:hover,
+input:hover {
+    background-color: #222222;
+}
+
+fieldset {
+    border: #151515 solid 3px;
+    border-radius: 10px;
+    background-color: #191919;
+    padding: 20px 20px;
+}
+footer {
+    text-align: center;
+    padding: 1px;
+}
+
+h1,
+h2,
+input,
+button {
+    font-family: 'ROBLOX';
+}
+h1 {
+    font-size: 6vw;
+}
+h2 {
+    font-size: calc(2.5vw + 10px);
+}
+h3 {
+    font-size: 1.8rem;
+}
+
+header {
+    text-align: center;
+}
+
+main {
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+p {
+    font-size: 1.2rem;
+    margin: 0px 20px;
+}
+
+table {
+    width: 100%;
+    padding: 20px 10px;
+    background-color: #141414;
+    border: 4px solid #000;
+    border-radius: 20px;
+}
+td {
+    padding: 2px 10px;
+    width: 70%;
+    height: 60px;
+    background-color: #222;
+    border: 4px solid #000;
+    font-size: auto;
+}
+th {
+    padding: 10px 10px;
+    border-bottom: 4px solid #333;
+    font-family: 'ROBLOX';
+    font-size: auto;
+}
+
+ul {
+    list-style-type: none;
+    width: 100vw;
+}
+
+/*=============================================
+=                     IDs                     =
+=============================================*/
+#background1 {
+    background: linear-gradient(to top, transparent 90%, #0f0f0f 100%), url(/img/background.jpg);
+    background-size: 100vw 100%;
+}
+#background2 {
+    background: url(/img/inscription_background.jpg);
+    background-size: 2000px 100%;
+}
+#background3 {
+    background: url(/img/login_background.jpg);
+    background-size: 100vw 100%;
+}
+
+#bloxy {
+    margin: auto auto;
+    width: 40vw;
+    right: 10%;
+    position: absolute;
+}
+
+#content {
+    margin: 40px 0px 0px 180px;
+    transition: ease-in-out margin 0.2s;
+}
+
+#intersection {
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 30%,
+        black 50%,
+        transparent 100%
+    );
+    margin: -100px 0 -100px 0;
+    padding: 75px 0 75px 0;
+}
+
+#leftbar {
+    height: 100vh;
+    width: 210px;
+    transition: ease-in-out margin 0.2s;
+}
+#leftbarArea {
+    position: fixed;
+    height: 100vh;
+    width: 210px;
+}
+
+#login {
+    margin: 19.9vh auto;
+    padding: 20px;
+    background-color: #121212;
+    border: 0px;
+    border-radius: 10px;
+    width: 350px;
+}
+#login input {
+    font-family: 'Gotham';
+    font-size: 1rem;
+    background-color: #212227;
+    border: 1px #707070 solid;
+    padding: 8px 11px;
+    margin: 10px 0px;
+}
+#login label {
+    font-size: 0.8rem;
+}
+
+#presentation {
+    background: url(/img/presentation.jpg);
+    background-size: 100vw 100%;
+    padding: 10%;
+}
+
+#robloxLogo {
+    font-family: 'ROBLOX';
+    font-size: 1.5rem;
+}
+
+#topbar li {
+    float: left;
+    font-size: 1.1rem;
+    margin-right: 5.5rem;
+}
+
+#userName > * {
+    position: fixed;
+    margin-left: 5px;
+    float: left;
+    font-size: 0.9rem;
+    padding: 4px 20px;
+}
+
+/*=============================================
+=                   CLASSES                   =
+=============================================*/
+.container {
+    position: relative;
+    margin: 80px 3vw;
+    width: 900px;
+    padding: 20px 3vw;
+    border: 7px solid #1b1b1b;
+    border-radius: 25px;
+    background-color: #222222;
+    overflow: hidden;
+}
+
+/*=============================================
+=                     MEDIA                   =
+=============================================*/
+@media only screen and (max-width: 900px) {
+    #topbar li {
+        margin-right: 5vw;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    #bloxy {
+        width: 0px;
+        right: 100%;
+    }
+    .container {
+        width: auto;
+    }
+}
