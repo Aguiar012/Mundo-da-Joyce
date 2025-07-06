@@ -3,11 +3,11 @@
 =============================================*/
 @font-face {
     font-family: 'ROBLOX';
-    src: local("ROBLOX"), url("/fonts/roblox_2017_font.woff") format("woff");
+    src: local("ROBLOX"), url("../fonts/roblox_2017_font.woff") format("woff");
 }
 @font-face {
     font-family: 'Gotham';
-    src: local("Gotham"), url("/fonts/GothamBlack.woff") format("woff");
+    src: local("Gotham"), url("../fonts/GothamBlack.woff") format("woff");
 }
 
 /*=============================================
@@ -184,11 +184,11 @@ ul {
     background-size: 100vw 100%;
 }
 #background2 {
-    background: url(/img/inscription_background.jpg);
+    background: url("../img/inscription_background.jpg");
     background-size: 2000px 100%;
 }
 #background3 {
-    background: url(/img/login_background.jpg);
+    background: url("../img/login_background.jpg");
     background-size: 100vw 100%;
 }
 
@@ -248,7 +248,7 @@ ul {
 }
 
 #presentation {
-    background: url(/img/presentation.jpg);
+    background: url("../img/presentation.jpg");
     background-size: 100vw 100%;
     padding: 10%;
 }
