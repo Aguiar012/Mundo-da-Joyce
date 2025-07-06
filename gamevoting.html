@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <title>Login</title>
+        <title>Votação de Jogos</title>
         <meta name="description" content="Competição de Robux do 2º REDES">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta charset="utf-8">
@@ -40,23 +40,32 @@
             </nav>
         </aside>
         <div id="content">
-            <main id="background3">
+            <main id="background4">
                 <br>
-                <div class="container form" id="login">
-                    <h3 style="text-align: center; margin-top: 10px; margin-bottom: 5px;">Login da Competição</h3>
-                    <form action="@login.php" method="post">
-                        <input type="text" placeholder="Nome Completo" 
-                            id="loginName" name="loginName" size="36" required>
+                <div class="container form" id="gamevoting">
+                    <h2>Escolha o próximo jogo!</h2>
+                    <form action="@gamevoting.php" method="post">
+                        <div id="gamearea">
+                            <label>
+                                <input type="radio" name="votedGame" value="TSB"></input>
+                                <img src="img/games/strongestBattlegrounds.jpg" alt="The Strongest Battlegrounds">
+                            </label>
+                            <label>
+                                <input type="radio" name="votedGame" value="FL"></input>
+                                <img src="img/games/frontlines.jpg" alt="Frontlines">
+                            </label>
+                            <label>
+                                <input type="radio" name="votedGame" value="NDS"></input>
+                                <img src="img/games/naturalDisaster.jpg" alt="Natural Disaster Survival">
+                            </label>
+                            <label>
+                                <input type="radio" name="votedGame" value="LB2"></input>
+                                <img src="img/games/lumberTycoon.jpg" alt="Lumber Tycoon 2">
+                            </label>
+                        </div>
                         <br>
-                        <input type="text" placeholder="Usuário"
-                            id="loginUser" name="loginUser" size="36" required>
-                        <br>
-                        <input type="email" placeholder="Email" 
-                            id="loginEmail" name="loginEmail" size="36" required>
-                        <input type="submit" value="Log In" 
-                        style="margin-top: 0px; padding: 8px 43%; background-color: #272930; border-color: #FFFFFF; color: #FFFFFF;">
+                        <input type="submit" id="botaovotar" value="Votar!" style="padding: 8px 48.5%; background-color: #FFFFFF; border: 0px; color: #000000;">
                     </form>
-                    <h6 style="text-align: center;">Não tem uma inscrição? <b><a href="inscription.html">Se inscreva já!</a></b></h6>
                 </div>
             </main>
         </div>
