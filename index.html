@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- Cor default do CINZA: #222222-->
+<!-- Cor default do texto: GothamBlack.woff-->
+<!-- Cor default do texto destaque: roblox_2017_font.woff-->
+    <!-- Pense que h1 e h2 tenham essa fonte-->
+<html lang="pt-br">
+    <head>
+        <title>Competição de Robux</title>
+        <meta name="description" content="Nosso site querido rapaziada">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta charset="utf-8">
+
+        <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/script.js" defer></script>
+    </head>
+    <body>
+        <aside>
+            <nav id="topbar">
+                <!-- A barra de navegação do canto superior-->
+                <div>
+                    <ul>
+                        <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="">Votação</a></li>
+                        <li><a href="">Chat</a></li>
+                        <li><a href="">Resultados</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <br>
+            <br>
+            <div id="leftbarArea"></div>
+            <nav id="leftbar">
+                <!-- A barra de navegação do canto esquerdo-->
+                <ul>
+                    <li>
+                        <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
+                        <span id="userName">
+                            <button onclick="login()">LOGIN</button>
+                            <!-- Pense que o JavaScript agirá aqui, inserindo um USUÁRIO ou um BOTÃO DE LOGIN-->
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div id="content">
+            <header>
+                <div id="presentation">
+                    <h1>COMPETIÇÃO DE ROBUX</h1>
+                </div>
+                <div id="intersection">
+                    <h3>Imagine competindo por um prêmio de...</h3>
+                    <h2 class="fontRainbow">5.000 ROBUX!</h2>
+                </div>
+            </header>
+            <main id="background1">
+                <img id="bloxy" src="/img/bloxy.png" alt="BLOXY AWARD">
+                <div class="container">
+                    <section>
+                        <h2>ISSO MESMO O QUE OUVIU!</h2>
+                        <p>
+                            Nós do grupo [GAME] estamos propondo, neste ano de 2025,
+                            uma competição especial de 5.000 ROBUX! <br>
+                            Qualquer aluno no 2º ano do curso de TÉCNICO EM REDES
+                            do Instituto Federal de São Paulo - Campus Pirituba pode participar!
+                        </p> 
+                    </section>
+
+                    <section>
+                        <h2>COMO PARTICIPAR?</h2>
+                        <p>
+                            Vá até o fim dessa página e se inscreva! <br>
+                            Sem colocar seus amigos em segredo, eim! 
+                        </p>
+                    </section>
+
+                    <section>
+                        <h2 style="color: red">JÁ SE INSCREVEU?</h2>
+                        <!--<form action="Verificacao()" method="POST"> -->
+                            <label for="verificationName">Nome:</label>
+                            <input type="text" id="verificationName" name="verificationName" maxlength="40" size="15" required>
+                            <!--<input type="submit" value="OK">-->
+                            <button onclick="Verification()">OK</button>
+                            <h3 id="verificationResult"></h3>
+                        <!-- </form> -->
+                    </section>
+                </div>
+
+                <div class="container">
+                    <section>
+                        <h2>LISTA DE INSCRITOS:</h2>
+                        <table id="inscriptionTable">
+                            <!-- Pense que o JavaScript agirá aqui, inserindo uma tabela com NOME e USÚARIO de inscritos-->
+                        </table> 
+                    </section>
+                </div>
+            </main>
+
+            <footer>
+                <div id="inscription">
+                    <a title="Clique para abrir a página de inscrição" href="/inscription.html">
+                        <h2>-> SE INSCREVA JÁ! <-</h2>
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
