@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-$apiKey = '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';
+$apiKey = ''; # coloca: sk-proj-Ytso7A5raQywA2UEHx-iK36I73mXkSdfrAHnZ9_67Av-PT          nU3vgw-KdgkCkGLy2x_-bNYi9QXuT3BlbkFJ_Grzj9Zv5I02ShidAyu2H8xQHrPxTUGAa0T9eTcSjhowaIW8v9aIVc6uHyGlF1Qr6hQs05RxwA
 
 $data = [
     "model" => "gpt-3.5-turbo",
