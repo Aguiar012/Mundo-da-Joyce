@@ -1,17 +1,23 @@
-function Verification () {
-    const verificationName = document.getElementById('verificationName');
-    let nome = verificationName.value.toUpperCase();
-    if (nome.trim()) {
-        const verificationResult = document.getElementById('verificationResult');
-        verificationResult.classList.add('bounce');
-        switch(verification(nome)) {
-            case true:
-                verificationResult.innerText = 'Está listado!';
-                break;
-            case false:
-                verificationResult.innerText = `"${nome}" não está listado!`;
-                break;
-        }
-        verificationResult.onanimationend = () => verificationResult.classList.remove('bounce');
+function Verification() {
+  const input = document.getElementById('verificationName');
+  const nomeDigitado = input.value.trim().toUpperCase();
+  const tabela = document.getElementById('inscriptionTable');
+  const linhas = tabela.getElementsByTagName('tr');
+  const resultado = document.getElementById('verificationResult');
+  let encontrado = false;
+
+  for (let i = 1; i < linhas.length; i++) {
+    const nomeNaTabela = linhas[i].cells[0].textContent.trim().toUpperCase();
+    if (nomeDigitado === nomeNaTabela) {
+      encontrado = true;
+      break;
     }
+  }
+
+  resultado.classList.add('bounce');
+  resultado.innerText = encontrado
+    ? 'Está listado!'
+    : `"${nomeDigitado}" não está listado!`;
+
+  resultado.onanimationend = () => resultado.classList.remove('bounce');
 }
