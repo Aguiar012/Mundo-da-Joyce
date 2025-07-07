@@ -17,7 +17,6 @@ if (isset($_SESSION['PHPUsername'])) {
 
         <link rel="stylesheet" href="css/style.css">
         <script src="js/logo-and-sidebar.js" defer></script>
-        <script src="js/gpt-message.js" defer></script>
     </head>
     <body>
         <aside>
@@ -84,8 +83,10 @@ if (isset($_SESSION['PHPUsername'])) {
                                 // Conecta no banco
                                 require_once 'dataphp/dbconnection.php';
                                     // Ajuste: insere avatar na tabela também
-                                    $stmt = $conn->prepare("INSERT INTO inscricoes(inscriptionName, inscriptionUser, inscriptionEmail, inscriptionTelephone)
-                                                            VALUES (?, ?, ?, ?)");
+                                    $stmt = $conn->prepare(
+                                    "INSERT INTO inscricoes (nome_completo, usuario, email, telefone)
+                                    VALUES (?, ?, ?, ?)"
+                                    );
                                     $stmt->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
                                     $stmt->execute();
                                     $stmt->close();
@@ -104,13 +105,38 @@ if (isset($_SESSION['PHPUsername'])) {
                         ?>
                     </form>
 
-                    <div id="frase"></div>
+                    <!-- área da mensagem do GPT -->
+                    <div id="frase">
+                        Aguardando mensagem do GPT...
+
+                        
+
+                    </div>
                 </div>
             </main>
         </div>
     </body>
 </html>
 
+<script>
+(async function(){
+    const div = document.getElementById("frase");
+    div.innerText = "Carregando mensagem do GPT...";
+    try {
+        const res = await fetch("dataphp/gpt-message.php");
+        const data = await res.json();
 
-
-<?php $conn->close()?>
+        if (data.mensagem) {
+            console.log("Mensagem recebida:", data.mensagem);
+            div.innerText = data.mensagem;
+        } else if (data.erro) {
+            div.innerText = "Erro: " + data.erro;
+        } else {
+            div.innerText = "Erro desconhecido.";
+        }
+    } catch (e) {
+        console.error("Erro ao buscar mensagem:", e);
+        div.innerText = "Erro ao buscar mensagem do GPT.";
+    }
+})();
+</script>
