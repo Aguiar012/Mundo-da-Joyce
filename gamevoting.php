@@ -6,8 +6,56 @@ if (!isset($_SESSION['PHPUsername'])) {
     exit();
 }
 
-require_once 'dataphp/roblox-api.php';
+require_once 'dataphp/dbconnection.php';
+$submitValue = "Votar!";
+$votedGame = null;
 
+$voteName = $_SESSION['PHPName'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $novoVoto = $_POST['votedGame'] ?? '';
+
+    if ($novoVoto !== '') {
+        // Verificacao top das galaxia
+        $stmt = $conn->prepare("SELECT votedGame FROM gamevotes WHERE voteName = ?");
+        $stmt->bind_param("s", $voteName);
+        $stmt->execute();
+        $stmt_result = $stmt->get_result();
+
+        if ($stmt_result->num_rows > 0) {
+            // Já votou
+            $submitValue = "Voto atualizado!";
+            $stmt->close();
+
+            $stmt = $conn->prepare("UPDATE gamevotes SET votedGame = ? WHERE voteName = ?");
+            $stmt->bind_param("ss", $novoVoto, $voteName);
+            $stmt->execute();
+        } else {
+            // Ainda não votou
+            $submitValue = "Obrigado!";
+            $stmt->close();
+
+            $stmt = $conn->prepare("INSERT INTO gamevotes (votedGame, voteName) VALUES (?, ?)");
+            $stmt->bind_param("ss", $novoVoto, $voteName);
+            $stmt->execute();
+        }
+
+        $stmt->close();
+    }
+}
+
+// marcacao automatica dos botao
+$stmt = $conn->prepare("SELECT votedGame FROM gamevotes WHERE voteName = ?");
+$stmt->bind_param("s", $voteName);
+$stmt->execute();
+$stmt_result = $stmt->get_result();
+if ($stmt_result->num_rows > 0) {
+    $row = $stmt_result->fetch_assoc();
+    $votedGame = $row['votedGame'];
+}
+
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -65,32 +113,35 @@ require_once 'dataphp/roblox-api.php';
                 <br>
                 <div class="container form" id="gamevoting">
                     <h2>Escolha o próximo jogo!</h2>
-                    <form action="@gamevoting.php" method="post">
+                    <form action="" method="post">
                         <div id="gamearea">
                             <label>
-                                <input type="radio" name="votedGame" value="TSB" required></input>
+                                <input type="radio" name="votedGame" value="TSB" required
+                                    <?= ($votedGame === 'TSB') ? 'checked' : '' ?>></input>
                                 <img src="img/games/strongestBattlegrounds.jpg" alt="The Strongest Battlegrounds">
                             </label>
                             <label>
-                                <input type="radio" name="votedGame" value="FL"></input>
+                                <input type="radio" name="votedGame" value="FL" 
+                                    <?= ($votedGame === 'FL') ? 'checked' : '' ?>></input>
                                 <img src="img/games/frontlines.jpg" alt="Frontlines">
                             </label>
                             <label>
-                                <input type="radio" name="votedGame" value="NDS"></input>
+                                <input type="radio" name="votedGame" value="NDS"
+                                    <?= ($votedGame === 'NDS') ? 'checked' : '' ?>></input>
                                 <img src="img/games/naturalDisaster.jpg" alt="Natural Disaster Survival">
                             </label>
                             <label>
-                                <input type="radio" name="votedGame" value="LB2"></input>
+                                <input type="radio" name="votedGame" value="LB2"
+                                    <?= ($votedGame === 'LB2') ? 'checked' : '' ?>></input>
                                 <img src="img/games/lumberTycoon.jpg" alt="Lumber Tycoon 2">
                             </label>
                         </div>
                         <br>
-                        <input type="submit" id="botaovotar" value="Votar!" style="padding: 8px 48.5%; background-color: #FFFFFF; border: 0px; color: #000000;">
+                        <input type="submit" id="botaovotar" value="<?= htmlspecialchars($submitValue)?>" 
+                            style="padding: 8px 45.5%; text-align: center; background-color: #FFFFFF; border: 0px; color: #000000;">
                     </form>
                 </div>
             </main>
         </div>
     </body>
 </html>
-
-<?php $conn->close();?>

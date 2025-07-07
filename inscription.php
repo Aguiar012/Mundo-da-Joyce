@@ -5,6 +5,39 @@ if (isset($_SESSION['PHPUsername'])) {
     header("Location: index"); // nuh uh
     exit();
 }
+
+$userError = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Dados do formulário
+    $inscriptionName = $_POST['inscriptionName'];
+    $inscriptionUser = $_POST['inscriptionUser'];
+    $inscriptionEmail = $_POST['inscriptionEmail'];
+    $inscriptionTelephone = $_POST['inscriptionTelephone'];
+
+    // Verifica se usuário existe no ROBLOX
+    require_once 'dataphp/roblox-api.php';
+    $userId = obterUserIdPorNome($inscriptionUser);
+
+    if ($userId) {
+        // Conecta no banco
+        require_once 'dataphp/dbconnection.php';
+        $stmt = $conn->prepare("INSERT INTO inscricoes(nome_completo, usuario, email, telefone)
+                                VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
+
+        // Redireciona
+        sleep(3);
+        header("Location: login");
+        exit();
+    } else {
+        // Caso o usuário não exista
+        $userError = true;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -67,50 +100,11 @@ if (isset($_SESSION['PHPUsername'])) {
                             id="inscriptionTelephone" name="inscriptionTelephone" size="36" required> <!-- vai para php como $_POST['inscriptionTelephone'] -->
                         <br> <br>
                         <input type="submit" value="Enviar" style="padding: 8px 43.5%; background-color: #FFFFFF; border: 0px; color: #000000;">
-                        <?php
-                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                            // Dados do formulário
-                            $inscriptionName = $_POST['inscriptionName'];
-                            $inscriptionUser = $_POST['inscriptionUser'];
-                            $inscriptionEmail = $_POST['inscriptionEmail'];
-                            $inscriptionTelephone = $_POST['inscriptionTelephone'];
-
-                            // Verifica se usuário existe no ROBLOX
-                            require_once 'dataphp/roblox-api.php';
-                            $userId = obterUserIdPorNome($inscriptionUser);
-
-                            if ($userId) {
-                                // Conecta no banco
-                                require_once 'dataphp/dbconnection.php';
-                                    // Ajuste: insere avatar na tabela também
-                                    $stmt = $conn->prepare(
-                                    "INSERT INTO inscricoes (nome_completo, usuario, email, telefone)
-                                    VALUES (?, ?, ?, ?)"
-                                    );
-                                    $stmt->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
-                                    $stmt->execute();
-                                    $stmt->close();
-                                    $conn->close();
-
-                                    // Redireciona
-                                    sleep(3);
-                                    header("Location: login");
-                                    exit();
-                            } else {
-                                // Caso o usuário não exista
-                                echo "<p style='color: red;'>O usuário Roblox informado não existe.</p>";
-                            }
-                        }
-                        
-                        ?>
+                        <?= ($userError === false) ? '' : '<p style="text-align=center">O usuário inserido não existe! </p>'?>
                     </form>
 
-                    <!-- área da mensagem do GPT -->
                     <div id="frase">
                         Aguardando mensagem do GPT...
-
-                        
-
                     </div>
                 </div>
             </main>

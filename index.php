@@ -114,8 +114,8 @@ $resultado = $conn->query($sql);
                             <?php if ($resultado && $resultado->num_rows > 0): ?>
                                 <?php while($linha = $resultado->fetch_assoc()): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($linha['nome_completo']); ?></td>
-                                        <td><?php echo htmlspecialchars($linha['usuario']); ?></td>
+                                        <td><?php echo htmlspecialchars(strtoupper($linha['nome_completo'])); ?></td>
+                                        <td><?php echo htmlspecialchars(strtoupper($linha['usuario'])); ?></td>
                                     </tr>
                                 <?php endwhile; ?>
                             <?php endif; ?>

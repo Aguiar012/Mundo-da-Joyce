@@ -1,10 +1,45 @@
 <?php
 session_start();
 
-
 if (isset($_SESSION['PHPUsername'])) {
     header("Location: index"); // nuh uh
     exit();
+}
+
+$errorInnerText = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $loginName = $_POST['loginName'];
+    $loginUser = $_POST['loginUser'];
+    $loginEmail = $_POST['loginEmail'];
+                        
+    require_once 'dataphp/roblox-api.php';
+    require_once 'dataphp/dbconnection.php';
+
+    $stmt = $conn->prepare("select * from inscricoes where nome_completo = ?");
+    $stmt->bind_param("s", $loginName);
+    $stmt->execute();
+    $stmt_result = $stmt->get_result();
+    if($stmt_result->num_rows > 0) {
+        $data = $stmt_result->fetch_assoc();
+        if($data['usuario'] === $loginUser) {
+            if($data['email'] === $loginEmail) {
+                session_start();
+                $_SESSION['PHPUsername'] = $loginUser;
+                $_SESSION['PHPName'] = $loginName;
+                $_SESSION['PHPUserAvatar'] = obterAvatarRoblox(obterUserIdPorNome($loginUser));
+                header("Location: index");
+                exit();
+            }else{
+                $errorInnerText = "Email Inválido";
+            }
+        }else{
+            $errorInnerText = "Usuário Inválido";
+        }
+    }else{
+        $errorInnerText = "Nome Inválido";
+    }
 }
 ?>
 
@@ -62,39 +97,7 @@ if (isset($_SESSION['PHPUsername'])) {
                         <input type="submit" value="Log In" 
                         style="margin-top: 0px; padding: 8px 43%; background-color: #272930; border-color: #FFFFFF; color: #FFFFFF;">
                     </form>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-                        $loginName = $_POST['loginName'];
-                        $loginUser = $_POST['loginUser'];
-                        $loginEmail = $_POST['loginEmail'];
-                        
-                        require_once 'dataphp/roblox-api.php';
-                        require_once 'dataphp/dbconnection.php';
-                            $stmt = $conn->prepare("select * from inscricoes where nome_completo = ?");
-                            $stmt->bind_param("s", $loginName);
-                            $stmt->execute();
-                            $stmt_result = $stmt->get_result();
-                            if($stmt_result->num_rows > 0) {
-                                $data = $stmt_result->fetch_assoc();
-                                if($data['usuario'] === $loginUser) {
-                                    if($data['email'] === $loginEmail) {
-                                        session_start();
-                                        $_SESSION['PHPUsername'] = $loginUser;
-                                        $_SESSION['PHPUserAvatar'] = obterAvatarRoblox(obterUserIdPorNome($loginUser));
-                                        header("Location: index");
-                                        exit();
-                                    }else{
-                                        echo "<p style='color: red;'>Email Inválido</p>";
-                                    }
-                                }else{
-                                    echo "<p style='color: red;'>Usuário Inválido</p>";
-                                }
-                            }else{
-                                echo "<p style='color: red;'>Nome Inválido</p>";;
-                            }
-                    }
-                    ?>
+                    <p style="text-align: center;"><?= htmlspecialchars($errorInnerText)?></p>
                     <h6 style="text-align: center;">Não tem uma inscrição? <b><a href="inscription">Se inscreva já!</a></b></h6>
                 </div>
             </main>
