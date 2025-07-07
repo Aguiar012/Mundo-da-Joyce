@@ -95,7 +95,7 @@ $resultado = $conn->query($sql);
                         <h2 style="color: red">JÁ SE INSCREVEU?</h2>
                         <!--<form action="Verificacao()" method="POST"> -->
                             <label for="verificationName">Nome:</label>
-                            <input type="text" id="verificationName" name="verificationName" maxlength="40" size="15" required>
+                            <input type="text" id="verificationName" name="verificationName" maxlength="40" size="25" required>
                             <!--<input type="submit" value="OK">-->
                             <button onclick="Verification()">OK</button>
                             <h3 id="verificationResult"></h3>
