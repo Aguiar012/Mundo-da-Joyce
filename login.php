@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['PHPUsername'])) {
-    header("Location: index.php"); // nuh uh
+    header("Location: index"); // nuh uh
     exit();
 }
 ?>
@@ -25,7 +25,7 @@ if (isset($_SESSION['PHPUsername'])) {
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index">Home</a></li>
                     </ul>
                 </div>
             </nav>
@@ -38,7 +38,7 @@ if (isset($_SESSION['PHPUsername'])) {
                     <li>
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
-                            <a href="login.php"id="login">LOGIN</a>
+                            <a href="login"id="login">LOGIN</a>
                         </span>
                     </li>
                 </ul>
@@ -81,7 +81,7 @@ if (isset($_SESSION['PHPUsername'])) {
                                         session_start();
                                         $_SESSION['PHPUsername'] = $loginUser;
                                         $_SESSION['PHPUserAvatar'] = obterAvatarRoblox(obterUserIdPorNome($loginUser));
-                                        header("Location: index.php");
+                                        header("Location: index");
                                         exit();
                                     }else{
                                         echo "<p style='color: red;'>Email Inválido</p>";
@@ -94,7 +94,7 @@ if (isset($_SESSION['PHPUsername'])) {
                             }
                     }
                     ?>
-                    <h6 style="text-align: center;">Não tem uma inscrição? <b><a href="inscription.php">Se inscreva já!</a></b></h6>
+                    <h6 style="text-align: center;">Não tem uma inscrição? <b><a href="inscription">Se inscreva já!</a></b></h6>
                 </div>
             </main>
         </div>

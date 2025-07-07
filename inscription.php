@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['PHPUsername'])) {
-    header("Location: index.php"); // nuh uh
+    header("Location: index"); // nuh uh
     exit();
 }
 ?>
@@ -26,7 +26,7 @@ if (isset($_SESSION['PHPUsername'])) {
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index">Home</a></li>
                     </ul>
                 </div>
             </nav>
@@ -39,7 +39,7 @@ if (isset($_SESSION['PHPUsername'])) {
                     <li>
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
-                            <a href="login.html"id="login">LOGIN</a>
+                            <a href="login"id="login">LOGIN</a>
                         </span>
                     </li>
                 </ul>
@@ -93,7 +93,7 @@ if (isset($_SESSION['PHPUsername'])) {
 
                                     // Redireciona
                                     sleep(3);
-                                    header("Location: login.php");
+                                    header("Location: login");
                                     exit();
                             } else {
                                 // Caso o usuário não exista

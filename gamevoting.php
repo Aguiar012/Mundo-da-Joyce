@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['PHPUsername'])) {
-    header("Location: index.php"); // nuh uh
+    header("Location: index"); // nuh uh
     exit();
 }
 
@@ -28,10 +28,10 @@ require_once 'dataphp/roblox-api.php';
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index">Home</a></li>
                         <?php
                             if (isset($_SESSION['PHPUsername'])) {
-                                echo '<li><a href="gamevoting.php">Votação</a></li>';
+                                echo '<li><a href="gamevoting">Votação</a></li>';
                                 echo '<li><a class="disabledLink">Chat</a></li>';
                                 echo '<li><a class="disabledLink">Resultados</a></li>';
                             }
@@ -52,7 +52,7 @@ require_once 'dataphp/roblox-api.php';
                             if (isset($_SESSION['PHPUsername'])) {
                                 echo htmlspecialchars($_SESSION['PHPUsername']);
                             } else {
-                                echo '<a href="login.html"id="login">LOGIN</a>';
+                                echo '<a href="index"id="login">LOGIN</a>';
                             }
                             ?>
                         </span>

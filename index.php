@@ -27,10 +27,10 @@ $resultado = $conn->query($sql);
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index">Home</a></li>
                         <?php
                             if (isset($_SESSION['PHPUsername'])) {
-                                echo '<li><a href="gamevoting.php">Votação</a></li>';
+                                echo '<li><a href="gamevoting">Votação</a></li>';
                                 echo '<li><a class="disabledLink">Chat</a></li>';
                                 echo '<li><a class="disabledLink">Resultados</a></li>';
                             }
@@ -51,7 +51,7 @@ $resultado = $conn->query($sql);
                             if (isset($_SESSION['PHPUsername'])) {
                                 echo htmlspecialchars($_SESSION['PHPUsername']);
                             } else {
-                                echo '<a href="login.php"id="login">LOGIN</a>';
+                                echo '<a href="login"id="login">LOGIN</a>';
                             }
                             ?>
                         </span>
@@ -126,7 +126,7 @@ $resultado = $conn->query($sql);
 
             <footer>
                 <div>
-                    <a title="Clique para abrir a página de inscrição" href="inscription.php">
+                    <a title="Clique para abrir a página de inscrição" href="inscription">
                         <?php
                         if (!isset($_SESSION['PHPUsername'])) {
                                 echo '<h2>-> SE INSCREVA JÁ! <-</h2>';
