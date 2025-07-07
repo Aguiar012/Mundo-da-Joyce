@@ -70,14 +70,14 @@ if (isset($_SESSION['PHPUsername'])) {
                         
                         require_once 'dataphp/roblox-api.php';
                         require_once 'dataphp/dbconnection.php';
-                            $stmt = $conn->prepare("select * from inscricoes where inscriptionName = ?");
+                            $stmt = $conn->prepare("select * from inscricoes where nome_completo = ?");
                             $stmt->bind_param("s", $loginName);
                             $stmt->execute();
                             $stmt_result = $stmt->get_result();
                             if($stmt_result->num_rows > 0) {
                                 $data = $stmt_result->fetch_assoc();
-                                if($data['inscriptionUser'] === $loginUser) {
-                                    if($data['inscriptionEmail'] === $loginEmail) {
+                                if($data['usuario'] === $loginUser) {
+                                    if($data['email'] === $loginEmail) {
                                         session_start();
                                         $_SESSION['PHPUsername'] = $loginUser;
                                         $_SESSION['PHPUserAvatar'] = obterAvatarRoblox(obterUserIdPorNome($loginUser));
