@@ -19,6 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once 'dataphp/roblox-api.php';
     $userId = obterUserIdPorNome($inscriptionUser);
 
+    $verificaSQL = "SELECT * FROM inscricoes WHERE 
+            nome_completo = ? OR 
+            usuario = ? OR 
+            email = ? OR 
+            telefone = ?";
+
+    require_once 'dataphp/dbconnection.php';
+
+    $verifica = $conn->prepare($verificaSQL);
+    $verifica->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
+    $verifica->execute();
+    $resultado = $verifica->get_result();
+
+    if ($resultado->num_rows > 0) {
+        echo "<p style='color: red;'>Nome, e-mail, usuário ou telefone já está cadastrado!</p>";
+        $verifica->close();
+        $conn->close();
+        exit();
+    }
+
     if ($userId) {
         // Conecta no banco
         require_once 'dataphp/dbconnection.php';
