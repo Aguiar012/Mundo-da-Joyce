@@ -2,62 +2,12 @@
 session_start();
 
 if (isset($_SESSION['PHPUsername'])) {
-    header("Location: index"); // nuh uh
+    header("Location: index.php"); // nuh uh
     exit();
 }
 
 $userError = false;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Dados do formulário
-    $inscriptionName = $_POST['inscriptionName'];
-    $inscriptionUser = $_POST['inscriptionUser'];
-    $inscriptionEmail = $_POST['inscriptionEmail'];
-    $inscriptionTelephone = $_POST['inscriptionTelephone'];
-
-    // Verifica se usuário existe no ROBLOX
-    require_once 'dataphp/roblox-api.php';
-    $userId = obterUserIdPorNome($inscriptionUser);
-
-    $verificaSQL = "SELECT * FROM inscricoes WHERE 
-            nome_completo = ? OR 
-            usuario = ? OR 
-            email = ? OR 
-            telefone = ?";
-
-    require_once 'dataphp/dbconnection.php';
-
-    $verifica = $conn->prepare($verificaSQL);
-    $verifica->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
-    $verifica->execute();
-    $resultado = $verifica->get_result();
-
-    if ($resultado->num_rows > 0) {
-        echo "<p style='color: red;'>Nome, e-mail, usuário ou telefone já está cadastrado!</p>";
-        $verifica->close();
-        $conn->close();
-        exit();
-    }
-
-    if ($userId) {
-        // Conecta no banco
-        require_once 'dataphp/dbconnection.php';
-        $stmt = $conn->prepare("INSERT INTO inscricoes(nome_completo, usuario, email, telefone)
-                                VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
-
-        // Redireciona
-        sleep(3);
-        header("Location: login");
-        exit();
-    } else {
-        // Caso o usuário não exista
-        $userError = true;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="index">Home</a></li>
+                        <li><a href="index.php">Home</a></li>
                     </ul>
                 </div>
             </nav>
@@ -91,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li>
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
-                            <a href="login"id="login">LOGIN</a>
+                            <a href="login.php"id="login">LOGIN</a>
                         </span>
                     </li>
                 </ul>
@@ -121,6 +71,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <br> <br>
                         <input type="submit" value="Enviar" style="padding: 8px 43.5%; background-color: #FFFFFF; border: 0px; color: #000000;">
                         <?= ($userError === false) ? '' : '<p style="text-align=center">O usuário inserido não existe! </p>'?>
+                        <?php
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            // Dados do formulário
+                            $inscriptionName = $_POST['inscriptionName'];
+                            $inscriptionUser = $_POST['inscriptionUser'];
+                            $inscriptionEmail = $_POST['inscriptionEmail'];
+                            $inscriptionTelephone = $_POST['inscriptionTelephone'];
+
+                            // Verifica se usuário existe no ROBLOX
+                            require_once 'dataphp/roblox-api.php';
+                            $userId = obterUserIdPorNome($inscriptionUser);
+
+                            $verificaSQL = "SELECT * FROM inscricoes WHERE 
+                                    nome_completo = ? OR 
+                                    usuario = ? OR 
+                                    email = ? OR 
+                                    telefone = ?";
+
+                            require_once 'dataphp/dbconnection.php';
+
+                            $verifica = $conn->prepare($verificaSQL);
+                            $verifica->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
+                            $verifica->execute();
+                            $resultado = $verifica->get_result();
+
+                            if ($resultado->num_rows > 0) {
+                                echo "<p style='color: red;'>Nome, e-mail, usuário ou telefone já está cadastrado!</p>";
+                                $verifica->close();
+                                $conn->close();
+                                exit();
+                            }
+
+                            if ($userId) {
+                                // Conecta no banco
+                                require_once 'dataphp/dbconnection.php';
+                                $stmt = $conn->prepare("INSERT INTO inscricoes(nome_completo, usuario, email, telefone)
+                                                        VALUES (?, ?, ?, ?)");
+                                $stmt->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
+                                $stmt->execute();
+                                $stmt->close();
+                                $conn->close();
+
+                                // Redireciona
+                                sleep(3);
+                                header("Location: login.php");
+                                exit();
+                            } else {
+                                // Caso o usuário não exista
+                                $userError = true;
+                            }
+                        }
+                        ?>
                     </form>
 
                     <div id="frase">
