@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
+
 $apiKey = ''; # coloca so que sem espaço: sk-proj-Ytso7A5raQywA2UEHx-iK36I73mXkSdfrAHnZ9_67Av-PT          nU3vgw-KdgkCkGLy2x_-bNYi9QXuT3BlbkFJ_Grzj9Zv5I02ShidAyu2H8xQHrPxTUGAa0T9eTcSjhowaIW8v9aIVc6uHyGlF1Qr6hQs05RxwA
 
 $data = [
