@@ -10,26 +10,16 @@ if ($_POST) {
 }
 
 $conn->close();
-
-
-
-# Copiei o site do inscriotion.html só que agora diz que vc ja ta na lista
-
 ?>
 
 <!DOCTYPE html>
-<!-- Cor default do CINZA: #222222-->
-<!-- Cor default do texto: GothamBlack.woff-->
-<!-- Cor default do texto destaque: roblox_2017_font.woff-->
-    <!-- Pense que h1 e h2 tenham essa fonte-->
 <html lang="pt-br">
     <head>
         <title>Inscrição</title>
-        <meta name="description" content="Nosso site querido rapaziada">
+        <meta name="description" content="Competição de Robux do 2º REDES">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <meta charset="utf-8">
 
-        <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
         <link rel="stylesheet" href="css/style.css">
         <script src="js/script.js" defer></script>
     </head>
@@ -40,10 +30,10 @@ $conn->close();
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="/index.html">Home</a></li>
-                        <li><a href="">Votação</a></li>
-                        <li><a href="">Chat</a></li>
-                        <li><a href="">Resultados</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a class="disabledLink" href="gamevoting.html" id="Voting">Votação</a></li>
+                        <li><a class="disabledLink" href="" id="Chat">Chat</a></li>
+                        <li><a class="disabledLink" href="" id="Results">Resultados</a></li>
                     </ul>
                 </div>
             </nav>
@@ -56,7 +46,7 @@ $conn->close();
                     <li>
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
-                            <button onclick="login()">LOGIN</button>
+                            <a href="login.html"id="login">LOGIN</a>
                             <!-- Pense que o JavaScript agirá aqui, inserindo um USUÁRIO ou um BOTÃO DE LOGIN-->
                         </span>
                     </li>
@@ -66,29 +56,65 @@ $conn->close();
         <div id="content">
             <main id="background2">
                 <br>
-                <div class="container" id="login">
-                    <h3 style="text-align: center; margin-top: -5px;">VOCE Ta NA LLISTA AGORRAAAA!</h3>
+                <div class="container form" id="inscription">
+                    <h3 style="text-align: center; margin-top: -5px;">SE INSCREVA JÁ!</h3>
                     <form action="inscription.php" method="post">
                         <label for="inscriptionName">Nome Completo</label>
                         <input type="text" placeholder="Jane Doe" 
-                            id="inscriptionName" name="inscriptionName" size="27" required>
+                            id="inscriptionName" name="inscriptionName" size="36" required> <!-- vai para php como $_POST['inscriptionName'] -->
                         <br> <br>
                         <label for="inscriptionUser">Usuário Completo</label>
                         <input type="text" placeholder="Janedoe123"
-                            id="inscriptionUser" name="inscriptionUser" size="27" required>
+                            id="inscriptionUser" name="inscriptionUser" size="36" required> <!-- vai para php como $_POST['inscriptionUser'] -->
                         <br> <br>
                         <label for="inscriptionEmail">Email</label>
                         <input type="email" placeholder="example@gmail.com" 
-                            id="inscriptionEmail" name="inscriptionEmail" size="27" required>
+                            id="inscriptionEmail" name="inscriptionEmail" size="36" required> <!-- vai para php como $_POST['inscriptionEmail'] -->
                         <br> <br>
                         <label for="inscriptionTelephone">Telefone</label>
                         <input type="tel" pattern="[0-9]{2}-[0-9]{4-5}-[0-9]{4}" placeholder="XX-XXXX(X)-XXXX" 
-                            id="inscriptionTelephone" name="inscriptionTelephone" size="27" required>
+                            id="inscriptionTelephone" name="inscriptionTelephone" size="36" required> <!-- vai para php como $_POST['inscriptionTelephone'] -->
                         <br> <br>
-                        <input type="submit" value="Enviar" style="padding: 8px 43%; background-color: #FFFFFF; border: 0px; color: #000000;">
+                        <input type="submit" value="Enviar" style="padding: 8px 43.5%; background-color: #FFFFFF; border: 0px; color: #000000;">
                     </form>
+
+                    
+                                        <!-- área da mensagem do GPT -->
+                    <div id="frase">
+                        Aguardando mensagem do GPT...
+                    </div>
                 </div>
             </main>
         </div>
     </body>
 </html>
+
+  <script>
+    (async function(){
+      const div = document.getElementById("frase");
+      try {
+        const res = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type":"application/json",
+            "Authorization":"Bearer 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"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages:[{
+              role:"user",
+              content:"Dê uma mensagem divertida parecendo um maluco FALANDO DISSE PARABENS POR SE INSCREVER NO TORNEI DE ROBUX DO NOSSO GRUPO. SEJA FREAK"
+            }],
+            temperature:0.9
+          })
+        });
+        const data = await res.json();
+        const texto = (data.choices?.[0]?.message?.content||"").replace(/^"|"$/g, "");
+        console.log("GPT respondeu:", texto);
+        div.innerText = texto || "Não veio nada…";
+      } catch(e) {
+        console.error("Erro GPT:", e);
+        div.innerText = "Erro ao obter mensagem do GPT.";
+      }
+    })();
+    </script>
