@@ -1,15 +1,10 @@
 <?php
-$conn = new mysqli('localhost', 'root', '', 'robux_inscricao');
-if ($conn->connect_error) die("Erro: " . $conn->connect_error);
+session_start();
 
-if ($_POST) {
-    $stmt = $conn->prepare("INSERT INTO inscricoes (nome_completo, usuario, email, telefone) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $_POST['inscriptionName'], $_POST['inscriptionUser'], $_POST['inscriptionEmail'], $_POST['inscriptionTelephone']);
-    echo $stmt->execute() ? "Inscrição feita!" : "Erro: " . $stmt->error;
-    $stmt->close();
+if (isset($_SESSION['PHPUsername'])) {
+    header("Location: index.php"); // nuh uh
+    exit();
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +16,8 @@ $conn->close();
         <meta charset="utf-8">
 
         <link rel="stylesheet" href="css/style.css">
-        <script src="js/script.js" defer></script>
+        <script src="js/logo-and-sidebar.js" defer></script>
+        <script src="js/gpt-message.js" defer></script>
     </head>
     <body>
         <aside>
@@ -31,9 +27,6 @@ $conn->close();
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
                         <li><a href="index.html">Home</a></li>
-                        <li><a class="disabledLink" href="gamevoting.html" id="Voting">Votação</a></li>
-                        <li><a class="disabledLink" href="" id="Chat">Chat</a></li>
-                        <li><a class="disabledLink" href="" id="Results">Resultados</a></li>
                     </ul>
                 </div>
             </nav>
@@ -47,7 +40,6 @@ $conn->close();
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
                             <a href="login.html"id="login">LOGIN</a>
-                            <!-- Pense que o JavaScript agirá aqui, inserindo um USUÁRIO ou um BOTÃO DE LOGIN-->
                         </span>
                     </li>
                 </ul>
@@ -58,7 +50,7 @@ $conn->close();
                 <br>
                 <div class="container form" id="inscription">
                     <h3 style="text-align: center; margin-top: -5px;">SE INSCREVA JÁ!</h3>
-                    <form action="inscription.php" method="post">
+                    <form action="" method="post">
                         <label for="inscriptionName">Nome Completo</label>
                         <input type="text" placeholder="Jane Doe" 
                             id="inscriptionName" name="inscriptionName" size="36" required> <!-- vai para php como $_POST['inscriptionName'] -->
@@ -76,45 +68,49 @@ $conn->close();
                             id="inscriptionTelephone" name="inscriptionTelephone" size="36" required> <!-- vai para php como $_POST['inscriptionTelephone'] -->
                         <br> <br>
                         <input type="submit" value="Enviar" style="padding: 8px 43.5%; background-color: #FFFFFF; border: 0px; color: #000000;">
+                        <?php
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            // Dados do formulário
+                            $inscriptionName = $_POST['inscriptionName'];
+                            $inscriptionUser = $_POST['inscriptionUser'];
+                            $inscriptionEmail = $_POST['inscriptionEmail'];
+                            $inscriptionTelephone = $_POST['inscriptionTelephone'];
+
+                            // Verifica se usuário existe no ROBLOX
+                            require_once 'dataphp/roblox-api.php';
+                            $userId = obterUserIdPorNome($inscriptionUser);
+
+                            if ($userId) {
+                                // Conecta no banco
+                                require_once 'dataphp/dbconnection.php';
+                                    // Ajuste: insere avatar na tabela também
+                                    $stmt = $conn->prepare("INSERT INTO inscricoes(inscriptionName, inscriptionUser, inscriptionEmail, inscriptionTelephone)
+                                                            VALUES (?, ?, ?, ?)");
+                                    $stmt->bind_param("ssss", $inscriptionName, $inscriptionUser, $inscriptionEmail, $inscriptionTelephone);
+                                    $stmt->execute();
+                                    $stmt->close();
+                                    $conn->close();
+
+                                    // Redireciona
+                                    sleep(3);
+                                    header("Location: login.php");
+                                    exit();
+                            } else {
+                                // Caso o usuário não exista
+                                echo "<p style='color: red;'>O usuário Roblox informado não existe.</p>";
+                            }
+                        }
+                        
+                        ?>
                     </form>
 
-                    
-                                        <!-- área da mensagem do GPT -->
-                    <div id="frase">
-                        Aguardando mensagem do GPT...
-                    </div>
+                    <div id="frase"></div>
                 </div>
             </main>
         </div>
     </body>
 </html>
 
-  <script>
-    (async function(){
-      const div = document.getElementById("frase");
-      try {
-        const res = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type":"application/json",
-            "Authorization":"Bearer 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"
-          },
-          body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages:[{
-              role:"user",
-              content:"Dê uma mensagem divertida parecendo um maluco FALANDO DISSE PARABENS POR SE INSCREVER NO TORNEI DE ROBUX DO NOSSO GRUPO. SEJA FREAK"
-            }],
-            temperature:0.9
-          })
-        });
-        const data = await res.json();
-        const texto = (data.choices?.[0]?.message?.content||"").replace(/^"|"$/g, "");
-        console.log("GPT respondeu:", texto);
-        div.innerText = texto || "Não veio nada…";
-      } catch(e) {
-        console.error("Erro GPT:", e);
-        div.innerText = "Erro ao obter mensagem do GPT.";
-      }
-    })();
-    </script>
+
+
+<?php $conn->close()?>

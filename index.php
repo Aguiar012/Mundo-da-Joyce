@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once 'dataphp/dbconnection.php';
+
+// área da tabela
+$sql = "SELECT inscriptionName, inscriptionUser FROM inscricoes";
+$resultado = $conn->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -7,7 +17,8 @@
         <meta charset="utf-8">
 
         <link rel="stylesheet" href="css/style.css">
-        <script src="js/script.js" defer></script>
+        <script src="js/logo-and-sidebar.js" defer></script>
+        <script src="js/name-verification.js" defer></script>
     </head>
     <body>
         <aside>
@@ -17,9 +28,13 @@
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
                         <li><a href="index.html">Home</a></li>
-                        <li><a class="disabledLink" href="gamevoting.html" id="Voting">Votação</a></li>
-                        <li><a class="disabledLink" href="" id="Chat">Chat</a></li>
-                        <li><a class="disabledLink" href="" id="Results">Resultados</a></li>
+                        <?php
+                            if (isset($_SESSION['PHPUsername'])) {
+                                echo '<li><a href="gamevoting.php">Votação</a></li>';
+                                echo '<li><a class="disabledLink">Chat</a></li>';
+                                echo '<li><a class="disabledLink">Resultados</a></li>';
+                            }
+                        ?>
                     </ul>
                 </div>
             </nav>
@@ -32,8 +47,13 @@
                     <li>
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
-                            <a href="login.html"id="login">LOGIN</a>
-                            <!-- Pense que o JavaScript agirá aqui, inserindo um USUÁRIO ou um BOTÃO DE LOGIN-->
+                            <?php
+                            if (isset($_SESSION['PHPUsername'])) {
+                                echo htmlspecialchars($_SESSION['PHPUsername']);
+                            } else {
+                                echo '<a href="login.php"id="login">LOGIN</a>';
+                            }
+                            ?>
                         </span>
                     </li>
                 </ul>
@@ -42,7 +62,7 @@
         <div id="content">
             <header>
                 <div id="presentation">
-                    <img src="img/presentation.jpg" alt="background" id="animatedBackground" class="skibidi">
+                    <img src="img/presentation.jpg" alt="background" id="animatedBackground">
                     <h1>COMPETIÇÃO DE ROBUX</h1>
                 </div>
                 <div id="intersection">
@@ -87,7 +107,18 @@
                     <section>
                         <h2>LISTA DE INSCRITOS:</h2>
                         <table id="inscriptionTable">
-                            <!-- Pense que o JavaScript agirá aqui, inserindo uma tabela com NOME e USÚARIO de inscritos-->
+                            <tr>
+                                <th>NOME</th>
+                                <th>USUÁRIO</th>
+                            </tr>
+                            <?php if ($resultado && $resultado->num_rows > 0): ?>
+                                <?php while($linha = $resultado->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($linha['inscriptionName']); ?></td>
+                                        <td><?php echo htmlspecialchars($linha['inscriptionUser']); ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php endif; ?>
                         </table> 
                     </section>
                 </div>
@@ -95,11 +126,17 @@
 
             <footer>
                 <div>
-                    <a title="Clique para abrir a página de inscrição" href="inscription.html">
-                        <h2>-> SE INSCREVA JÁ! <-</h2>
+                    <a title="Clique para abrir a página de inscrição" href="inscription.php">
+                        <?php
+                        if (!isset($_SESSION['PHPUsername'])) {
+                                echo '<h2>-> SE INSCREVA JÁ! <-</h2>';
+                        }
+                        ?>
                     </a>
                 </div>
             </footer>
         </div>
     </body>
 </html>
+
+<?php $conn->close()?>

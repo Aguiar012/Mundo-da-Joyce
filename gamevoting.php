@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['PHPUsername'])) {
+    header("Location: index.php"); // nuh uh
+    exit();
+}
+
+require_once 'dataphp/roblox-api.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -7,7 +19,7 @@
         <meta charset="utf-8">
 
         <link rel="stylesheet" href="css/style.css">
-        <script src="js/script.js" defer></script>
+        <script src="js/logo-and-sidebar.js" defer></script>
     </head>
     <body>
         <aside>
@@ -16,10 +28,14 @@
                 <div>
                     <ul>
                         <li><a href="https://www.roblox.com/home" id="robloxLogo">ROBLOX</a></li>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a class="disabledLink" href="gamevoting.html" id="Voting">Votação</a></li>
-                        <li><a class="disabledLink" href="" id="Chat">Chat</a></li>
-                        <li><a class="disabledLink" href="" id="Results">Resultados</a></li>
+                        <li><a href="index.php">Home</a></li>
+                        <?php
+                            if (isset($_SESSION['PHPUsername'])) {
+                                echo '<li><a href="gamevoting.php">Votação</a></li>';
+                                echo '<li><a class="disabledLink">Chat</a></li>';
+                                echo '<li><a class="disabledLink">Resultados</a></li>';
+                            }
+                        ?>
                     </ul>
                 </div>
             </nav>
@@ -32,8 +48,13 @@
                     <li>
                         <img width="30px" src="img/defaultProfile.png" alt="Profile Photo">
                         <span id="userName">
-                            <a href="login.html"id="login">LOGIN</a>
-                            <!-- Pense que o JavaScript agirá aqui, inserindo um USUÁRIO ou um BOTÃO DE LOGIN-->
+                            <?php
+                            if (isset($_SESSION['PHPUsername'])) {
+                                echo htmlspecialchars($_SESSION['PHPUsername']);
+                            } else {
+                                echo '<a href="login.html"id="login">LOGIN</a>';
+                            }
+                            ?>
                         </span>
                     </li>
                 </ul>
@@ -47,7 +68,7 @@
                     <form action="@gamevoting.php" method="post">
                         <div id="gamearea">
                             <label>
-                                <input type="radio" name="votedGame" value="TSB"></input>
+                                <input type="radio" name="votedGame" value="TSB" required></input>
                                 <img src="img/games/strongestBattlegrounds.jpg" alt="The Strongest Battlegrounds">
                             </label>
                             <label>
@@ -71,3 +92,5 @@
         </div>
     </body>
 </html>
+
+<?php $conn->close();?>
